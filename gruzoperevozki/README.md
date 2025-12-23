@@ -34,14 +34,37 @@
 - .NET 6.0 SDK или выше
 - Windows (приложение использует Windows Forms)
 
-## Сборка проекта
+## Быстрый старт
+
+### Скачивание готового EXE файла
+
+1. Клонируйте репозиторий:
+   ```bash
+   git clone https://github.com/koka-creator/kursovaya_rabota.git
+   cd kursovaya_rabota/gruzoperevozki
+   ```
+
+2. Установите Git LFS (если еще не установлен):
+   - Скачайте с https://git-lfs.github.com/
+   - Или через пакетный менеджер: `winget install Git.GitLFS`
+
+3. Загрузите EXE файл через Git LFS:
+   ```bash
+   git lfs pull
+   ```
+
+4. Запустите `Gruzoperevozki.exe` - приложение готово к использованию!
+
+**Примечание:** EXE файл хранится через Git LFS из-за большого размера (~150 MB). При обычном клонировании вы получите указатель на файл, а не сам файл. Используйте `git lfs pull` для загрузки.
+
+## Сборка проекта из исходников
 
 ### Сборка в один EXE файл
 
 Для сборки приложения в один исполняемый файл выполните:
 
 ```bash
-dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
 ```
 
 Исполняемый файл будет находиться в папке:
