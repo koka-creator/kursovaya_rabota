@@ -31,7 +31,7 @@
 
 ## Требования
 
-- .NET 6.0 SDK или выше
+- .NET 8.0 SDK или выше
 - Windows (приложение использует Windows Forms)
 
 ## Быстрый старт
@@ -69,7 +69,7 @@ dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=
 
 Исполняемый файл будет находиться в папке:
 ```
-bin\Release\net6.0-windows\win-x64\publish\Gruzoperevozki.exe
+bin\Release\net8.0-windows\win-x64\publish\Gruzoperevozki.exe
 ```
 
 ### Обычная сборка
