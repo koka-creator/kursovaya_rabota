@@ -176,6 +176,21 @@ namespace Gruzoperevozki.Forms
             
             if (_statusComboBox.SelectedItem != null && Enum.TryParse<TripStatus>(_statusComboBox.SelectedItem.ToString(), out var status))
             {
+                // Проверка: нельзя завершить рейс раньше чем на 5 дней от текущей даты
+                if (status == TripStatus.Завершен)
+                {
+                    DateTime tripDate = Trip.ArrivalDateTime;
+                    DateTime minDate = DateTime.Now.AddDays(-5);
+                    
+                    if (tripDate < minDate)
+                    {
+                        MessageBox.Show($"Нельзя завершить рейс, который был более 5 дней назад. Минимальная дата завершения: {minDate:dd.MM.yyyy}", 
+                            "Ошибка валидации", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.DialogResult = DialogResult.None;
+                        return;
+                    }
+                }
+                
                 Trip.Status = status;
             }
 

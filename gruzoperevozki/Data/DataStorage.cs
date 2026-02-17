@@ -440,7 +440,23 @@ namespace Gruzoperevozki.Data
             var index = _data.Clients.FindIndex(c => c.Id == client.Id);
             if (index >= 0) _data.Clients[index] = client;
         }
-        public void DeleteClient(string id) => _data.Clients.RemoveAll(c => c.Id == id);
+        public void DeleteClient(string id)
+        {
+            // Удаляем связанные заказы
+            var relatedOrders = _data.Orders.Where(o => o.SenderClientId == id || o.ReceiverClientId == id).ToList();
+            foreach (var order in relatedOrders)
+            {
+                // Удаляем связанные рейсы
+                var relatedTrips = _data.Trips.Where(t => t.OrderId == order.Id).ToList();
+                foreach (var trip in relatedTrips)
+                {
+                    _data.Trips.RemoveAll(t => t.Id == trip.Id);
+                }
+                _data.Orders.RemoveAll(o => o.Id == order.Id);
+            }
+            // Удаляем клиента
+            _data.Clients.RemoveAll(c => c.Id == id);
+        }
 
         // Orders
         public List<Order> GetOrders() => _data.Orders;
@@ -450,7 +466,17 @@ namespace Gruzoperevozki.Data
             var index = _data.Orders.FindIndex(o => o.Id == order.Id);
             if (index >= 0) _data.Orders[index] = order;
         }
-        public void DeleteOrder(string id) => _data.Orders.RemoveAll(o => o.Id == id);
+        public void DeleteOrder(string id)
+        {
+            // Удаляем связанные рейсы
+            var relatedTrips = _data.Trips.Where(t => t.OrderId == id).ToList();
+            foreach (var trip in relatedTrips)
+            {
+                _data.Trips.RemoveAll(t => t.Id == trip.Id);
+            }
+            // Удаляем заказ
+            _data.Orders.RemoveAll(o => o.Id == id);
+        }
 
         // Trips
         public List<Trip> GetTrips() => _data.Trips;

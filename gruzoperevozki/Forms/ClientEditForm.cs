@@ -226,30 +226,48 @@ namespace Gruzoperevozki.Forms
                     return;
                 }
 
-                // Проверка серии паспорта (4 цифры)
-                string passportSeries = _passportSeriesTextBox.Text.Trim();
-                if (!string.IsNullOrWhiteSpace(passportSeries))
+                // Проверка телефона (11 цифр)
+                string phone = _phoneTextBox.Text.Trim();
+                // Убираем все нецифровые символы для проверки
+                string phoneDigits = Regex.Replace(phone, @"[^\d]", "");
+                if (string.IsNullOrWhiteSpace(phone) || phoneDigits.Length != 11)
                 {
-                    if (!Regex.IsMatch(passportSeries, @"^\d{4}$"))
-                    {
-                        MessageBox.Show("Серия паспорта должна содержать ровно 4 цифры", "Ошибка валидации", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        this.DialogResult = DialogResult.None;
-                        return;
-                    }
+                    MessageBox.Show("Номер телефона должен содержать ровно 11 цифр", "Ошибка валидации", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.DialogResult = DialogResult.None;
+                    return;
                 }
 
-                // Проверка номера паспорта (6 цифр)
-                string passportNumber = _passportNumberTextBox.Text.Trim();
-                if (!string.IsNullOrWhiteSpace(passportNumber))
+                // Проверка серии паспорта (4 цифры) - обязательное поле
+                string passportSeries = _passportSeriesTextBox.Text.Trim();
+                if (string.IsNullOrWhiteSpace(passportSeries))
                 {
-                    if (!Regex.IsMatch(passportNumber, @"^\d{6}$"))
-                    {
-                        MessageBox.Show("Номер паспорта должен содержать ровно 6 цифр", "Ошибка валидации", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        this.DialogResult = DialogResult.None;
-                        return;
-                    }
+                    MessageBox.Show("Введите серию паспорта", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+                if (!Regex.IsMatch(passportSeries, @"^\d{4}$"))
+                {
+                    MessageBox.Show("Серия паспорта должна содержать ровно 4 цифры", "Ошибка валидации", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+
+                // Проверка номера паспорта (6 цифр) - обязательное поле
+                string passportNumber = _passportNumberTextBox.Text.Trim();
+                if (string.IsNullOrWhiteSpace(passportNumber))
+                {
+                    MessageBox.Show("Введите номер паспорта", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+                if (!Regex.IsMatch(passportNumber, @"^\d{6}$"))
+                {
+                    MessageBox.Show("Номер паспорта должен содержать ровно 6 цифр", "Ошибка валидации", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.DialogResult = DialogResult.None;
+                    return;
                 }
 
                 // Проверка даты выдачи паспорта (не может быть в будущем)
@@ -262,7 +280,7 @@ namespace Gruzoperevozki.Forms
                 }
 
                 Client.FullName = _fullNameTextBox.Text;
-                Client.Phone = _phoneTextBox.Text;
+                Client.Phone = phone;
                 Client.PassportSeries = passportSeries;
                 Client.PassportNumber = passportNumber;
                 Client.PassportIssueDate = _passportIssueDatePicker.Value;
@@ -284,21 +302,30 @@ namespace Gruzoperevozki.Forms
                     return;
                 }
 
-                // Проверка ИНН (10 или 12 цифр)
-                string taxId = _taxIdTextBox.Text.Trim();
-                if (!string.IsNullOrWhiteSpace(taxId))
+                // Проверка телефона (11 цифр)
+                string phone = _legalPhoneTextBox.Text.Trim();
+                // Убираем все нецифровые символы для проверки
+                string phoneDigits = Regex.Replace(phone, @"[^\d]", "");
+                if (string.IsNullOrWhiteSpace(phone) || phoneDigits.Length != 11)
                 {
-                    if (!Regex.IsMatch(taxId, @"^\d{10}$|^\d{12}$"))
-                    {
-                        MessageBox.Show("ИНН должен содержать 10 или 12 цифр", "Ошибка валидации", 
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        this.DialogResult = DialogResult.None;
-                        return;
-                    }
+                    MessageBox.Show("Номер телефона должен содержать ровно 11 цифр", "Ошибка валидации", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.DialogResult = DialogResult.None;
+                    return;
                 }
-                else
+
+                // Проверка ИНН (10 или 12 цифр) - обязательное поле
+                string taxId = _taxIdTextBox.Text.Trim();
+                if (string.IsNullOrWhiteSpace(taxId))
                 {
                     MessageBox.Show("Введите ИНН компании", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
+                if (!Regex.IsMatch(taxId, @"^\d{10}$|^\d{12}$"))
+                {
+                    MessageBox.Show("ИНН должен содержать 10 или 12 цифр", "Ошибка валидации", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.DialogResult = DialogResult.None;
                     return;
                 }
@@ -306,7 +333,7 @@ namespace Gruzoperevozki.Forms
                 Client.CompanyName = _companyNameTextBox.Text;
                 Client.DirectorName = _directorNameTextBox.Text;
                 Client.LegalAddress = _legalAddressTextBox.Text;
-                Client.Phone = _legalPhoneTextBox.Text;
+                Client.Phone = phone;
                 Client.BankName = _bankNameTextBox.Text;
                 Client.AccountNumber = _accountNumberTextBox.Text;
                 Client.TaxId = taxId;
