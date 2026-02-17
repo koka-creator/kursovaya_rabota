@@ -243,12 +243,51 @@ namespace Gruzoperevozki.Forms
             if (_senderComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Выберите клиента-отправителя", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
                 return;
             }
 
             if (_receiverComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Выберите клиента-получателя", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_loadingAddressTextBox.Text))
+            {
+                MessageBox.Show("Введите адрес погрузки", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_unloadingAddressTextBox.Text))
+            {
+                MessageBox.Show("Введите адрес разгрузки", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (_routeLengthNumeric.Value <= 0)
+            {
+                MessageBox.Show("Длина маршрута должна быть больше нуля", "Ошибка валидации", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (_costNumeric.Value <= 0)
+            {
+                MessageBox.Show("Стоимость заказа должна быть больше нуля", "Ошибка валидации", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (Order.CargoItems.Count == 0)
+            {
+                MessageBox.Show("Добавьте хотя бы один груз к заказу", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
                 return;
             }
 

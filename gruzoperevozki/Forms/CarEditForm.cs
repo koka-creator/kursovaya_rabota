@@ -188,7 +188,43 @@ namespace Gruzoperevozki.Forms
             if (string.IsNullOrWhiteSpace(_stateNumberTextBox.Text))
             {
                 MessageBox.Show("Введите государственный номер", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
                 return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_brandTextBox.Text))
+            {
+                MessageBox.Show("Введите марку автомобиля", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_modelTextBox.Text))
+            {
+                MessageBox.Show("Введите модель автомобиля", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_purposeTextBox.Text))
+            {
+                MessageBox.Show("Введите назначение автомобиля", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Проверка года капитального ремонта (не может быть раньше года выпуска)
+            if (_overhaulYearNumeric != null && _overhaulYearNumeric.Value > 0)
+            {
+                int manufactureYear = (int)_manufactureYearNumeric.Value;
+                int overhaulYear = (int)_overhaulYearNumeric.Value;
+                if (overhaulYear < manufactureYear)
+                {
+                    MessageBox.Show("Год капитального ремонта не может быть раньше года выпуска", "Ошибка валидации", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.DialogResult = DialogResult.None;
+                    return;
+                }
             }
 
             if (Car == null) return;

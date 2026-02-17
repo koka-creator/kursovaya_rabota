@@ -109,12 +109,41 @@ namespace Gruzoperevozki.Forms
             if (string.IsNullOrWhiteSpace(_fullNameTextBox.Text))
             {
                 MessageBox.Show("Введите ФИО водителя", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(_employeeNumberTextBox.Text))
             {
                 MessageBox.Show("Введите табельный номер", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            // Проверка возраста (не менее 18 лет)
+            int birthYear = (int)_birthYearNumeric.Value;
+            int currentYear = DateTime.Now.Year;
+            int age = currentYear - birthYear;
+            
+            if (age < 18)
+            {
+                MessageBox.Show($"Водитель не может быть младше 18 лет. Указанный год рождения соответствует возрасту {age} лет.", 
+                    "Ошибка валидации", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_categoryTextBox.Text))
+            {
+                MessageBox.Show("Введите категорию водительского удостоверения", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_classTextBox.Text))
+            {
+                MessageBox.Show("Введите классность водителя", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
                 return;
             }
 
@@ -122,7 +151,7 @@ namespace Gruzoperevozki.Forms
 
             Driver.FullName = _fullNameTextBox.Text;
             Driver.EmployeeNumber = _employeeNumberTextBox.Text;
-            Driver.BirthYear = (int)_birthYearNumeric.Value;
+            Driver.BirthYear = birthYear;
             Driver.WorkExperience = (int)_workExperienceNumeric.Value;
             Driver.Category = _categoryTextBox.Text;
             Driver.Class = _classTextBox.Text;

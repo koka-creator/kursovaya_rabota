@@ -92,6 +92,30 @@ namespace Gruzoperevozki.Forms
             if (string.IsNullOrWhiteSpace(_nameTextBox.Text))
             {
                 MessageBox.Show("Введите название груза", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_unitTextBox.Text))
+            {
+                MessageBox.Show("Введите единицу измерения", "Внимание", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (_quantityNumeric.Value <= 0)
+            {
+                MessageBox.Show("Количество должно быть больше нуля", "Ошибка валидации", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            if (_weightNumeric.Value <= 0)
+            {
+                MessageBox.Show("Вес должен быть больше нуля", "Ошибка валидации", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.DialogResult = DialogResult.None;
                 return;
             }
 
